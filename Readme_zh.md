@@ -33,10 +33,10 @@
     <groupId>io.github.zju-aces-ise</groupId>
     <artifactId>chatunitest-maven-plugin</artifactId>
     <!-- Required: Use  the lastest version -->
-    <version>2.0.0</version>
+    <version>2.1.1</version>
     <configuration>
         <!-- Required: You must specify your OpenAI API keys. -->
-        <apiKeys></apiKeys>g
+        <apiKeys></apiKeys>
         <model>gpt-4o-mini</model>
         <proxy>${proxy}</proxy>
     </configuration>
@@ -66,6 +66,8 @@
 - `maxThread`: (**可选**) 最大线程数，默认值：`CPU核心数 * 5`
 - `stopWhenSuccess`: (**可选**) 是否在生成一个成功的测试后停止，默认值：`true`
 - `noExecution`: (**可选**) 是否跳过执行测试验证的步骤，默认值：`false`
+- `module`: (**可选**) 指定模块名，用于在多模块项目根目录运行插件的场景，默认值：`" "`
+- `prune`: (**可选**) 开启或关闭迭代生成测试时剔除出现断言错误的测试用例，默认值：`false`
 所有这些参数也可以在命令行中使用-D选项指定。
 - `merge` : (**可选**) 将每个类对应的所有测试合并为测试套件，默认值: `true`.
 - `promptPath` : (**可选**) 自定义prompt的路径. 参考默认promp目录: `src/main/resources/prompt`.
@@ -95,6 +97,8 @@
     </configuration>
 </plugin>
 ```
+
+以下是单个模块的插件生成指南，如果您希望在多模块项目下正确使用插件，需要指定`module`参数 或者 进入子模块根目录（pom所在目录）运行插件。
 
 ### 1. 将以下依赖项添加到`pom.xml`文件中
 同样的，在待生成单测的项目的pom中添加依赖
@@ -147,6 +151,11 @@ mvn chatunitest:class -DselectClass=Example
 
 ```shell
 mvn chatunitest:method -DselectMethod=Example#method1
+```
+
+对Example类中的方法method1(...)进行测试：(精确匹配方法签名)
+```shell
+mvn chatunitest:methodWithoutOverload -DselectMethod=Example#method1(...)
 ```
 
 **为整个项目生成单元测试：**
