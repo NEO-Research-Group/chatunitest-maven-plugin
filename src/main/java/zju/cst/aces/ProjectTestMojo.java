@@ -160,7 +160,10 @@ public class ProjectTestMojo
     /** Timeout of each PIT process, in seconds */
     @Parameter(property = "pitTimeout", defaultValue = "600")
     public int pitTimeout;
-    /** Improvement prompt: mutants (default) | generic (control, without mutants) */
+    /** Keep the work directory of each PIT call (tmpOutput/<artifact>/mutation/); deleted after reading by default */
+    @Parameter(property = "keepPitWork", defaultValue = "false")
+    public boolean keepPitWork;
+    /** Improvement prompt: mutants (default) | generic (control, without mutants) | both (the two arms from the same S0) */
     @Parameter(property = "improvePromptType", defaultValue = "mutants")
     public String improvePromptType;
     /** Focal-class context of the improvement prompt: bodies (private methods, default) | fce (whole class) */
@@ -319,6 +322,7 @@ public class ProjectTestMojo
                 .stagnationCycles(stagnationCycles)
                 .mutators(mutators)
                 .pitTimeout(pitTimeout)
+                .keepPitWork(keepPitWork)
                 .improvePromptType(improvePromptType)
                 .improveFocalContext(improveFocalContext)
                 .build();
