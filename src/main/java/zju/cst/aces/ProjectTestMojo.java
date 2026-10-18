@@ -133,6 +133,9 @@ public class ProjectTestMojo
     public String module;
     @Parameter(alias = "prune", property = "prune", defaultValue = "false")
     public boolean enablePrune;
+    /** Method selection: benchmark (external deps AND branches, default) | branches | externalDeps | none */
+    @Parameter(property = "methodFilter", defaultValue = "benchmark")
+    public String methodFilter;
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     @Component(hint = "default")
     public DependencyGraphBuilder dependencyGraphBuilder;
@@ -275,6 +278,7 @@ public class ProjectTestMojo
                 .sampleSize(sampleSize)
                 .module(module)
                 .enablePrune(enablePrune)
+                .methodFilter(methodFilter)
                 .build();
 
         // SmartUnitTest generation is now handled in the execute method when phaseType is TELPA
