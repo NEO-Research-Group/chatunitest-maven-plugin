@@ -136,7 +136,7 @@ public class ProjectTestMojo
     /** Method selection: benchmark (external deps AND branches, default) | branches | externalDeps | none */
     @Parameter(property = "methodFilter", defaultValue = "benchmark")
     public String methodFilter;
-    /** Repair round with the same prompt as the previous one: none (default) | temperature | restart */
+    /** Repair round with the same prompt as the previous one: none (default) | temperature | restart | feedback */
     @Parameter(property = "stagnationStrategy", defaultValue = "none")
     public String stagnationStrategy;
     @Parameter(property = "stagnationTemperature", defaultValue = "0.7")
