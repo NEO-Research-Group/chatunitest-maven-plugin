@@ -136,6 +136,11 @@ public class ProjectTestMojo
     /** Method selection: benchmark (external deps AND branches, default) | branches | externalDeps | none */
     @Parameter(property = "methodFilter", defaultValue = "benchmark")
     public String methodFilter;
+    /** Repair round with the same prompt as the previous one: none (default) | temperature | restart */
+    @Parameter(property = "stagnationStrategy", defaultValue = "none")
+    public String stagnationStrategy;
+    @Parameter(property = "stagnationTemperature", defaultValue = "0.7")
+    public double stagnationTemperature;
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     @Component(hint = "default")
     public DependencyGraphBuilder dependencyGraphBuilder;
@@ -279,6 +284,8 @@ public class ProjectTestMojo
                 .module(module)
                 .enablePrune(enablePrune)
                 .methodFilter(methodFilter)
+                .stagnationStrategy(stagnationStrategy)
+                .stagnationTemperature(stagnationTemperature)
                 .build();
 
         // SmartUnitTest generation is now handled in the execute method when phaseType is TELPA
