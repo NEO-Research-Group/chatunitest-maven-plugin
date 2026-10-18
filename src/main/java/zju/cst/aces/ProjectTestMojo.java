@@ -141,6 +141,31 @@ public class ProjectTestMojo
     public String stagnationStrategy;
     @Parameter(property = "stagnationTemperature", defaultValue = "0.7")
     public double stagnationTemperature;
+    /** Quality improvement guided by mutation testing (phase 2): cycles of improvement + repair after the first green suite */
+    @Parameter(property = "enableQualityImprove", defaultValue = "false")
+    public boolean enableQualityImprove;
+    @Parameter(property = "maxQualityCycles", defaultValue = "5")
+    public int maxQualityCycles;
+    @Parameter(property = "maxRepairPerCycle", defaultValue = "2")
+    public int maxRepairPerCycle;
+    @Parameter(property = "maxMutantsPerPrompt", defaultValue = "5")
+    public int maxMutantsPerPrompt;
+    @Parameter(property = "maxMutantAttempts", defaultValue = "2")
+    public int maxMutantAttempts;
+    @Parameter(property = "stagnationCycles", defaultValue = "2")
+    public int stagnationCycles;
+    /** PIT mutators, always explicit (STRONGER, DEFAULTS, ALL or a comma-separated list) */
+    @Parameter(property = "mutators", defaultValue = "STRONGER")
+    public String mutators;
+    /** Timeout of each PIT process, in seconds */
+    @Parameter(property = "pitTimeout", defaultValue = "600")
+    public int pitTimeout;
+    /** Improvement prompt: mutants (default) | generic (control, without mutants) */
+    @Parameter(property = "improvePromptType", defaultValue = "mutants")
+    public String improvePromptType;
+    /** Focal-class context of the improvement prompt: bodies (private methods, default) | fce (whole class) */
+    @Parameter(property = "improveFocalContext", defaultValue = "bodies")
+    public String improveFocalContext;
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     @Component(hint = "default")
     public DependencyGraphBuilder dependencyGraphBuilder;
@@ -286,6 +311,16 @@ public class ProjectTestMojo
                 .methodFilter(methodFilter)
                 .stagnationStrategy(stagnationStrategy)
                 .stagnationTemperature(stagnationTemperature)
+                .enableQualityImprove(enableQualityImprove)
+                .maxQualityCycles(maxQualityCycles)
+                .maxRepairPerCycle(maxRepairPerCycle)
+                .maxMutantsPerPrompt(maxMutantsPerPrompt)
+                .maxMutantAttempts(maxMutantAttempts)
+                .stagnationCycles(stagnationCycles)
+                .mutators(mutators)
+                .pitTimeout(pitTimeout)
+                .improvePromptType(improvePromptType)
+                .improveFocalContext(improveFocalContext)
                 .build();
 
         // SmartUnitTest generation is now handled in the execute method when phaseType is TELPA
