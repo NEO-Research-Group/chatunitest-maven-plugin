@@ -169,6 +169,12 @@ public class ProjectTestMojo
     /** Focal-class context of the improvement prompt: bodies (private methods, default) | fce (whole class) */
     @Parameter(property = "improveFocalContext", defaultValue = "bodies")
     public String improveFocalContext;
+    /** File with the ids of the mutants that are not targets of the cycles (e.g. equivalent), one per line; none by default */
+    @Parameter(property = "excludedMutants", defaultValue = "")
+    public String excludedMutants;
+    /** Temperature of the improvement call (round 0 of each Q_i), for variety between cycles; negative = temperature */
+    @Parameter(property = "improveTemperature", defaultValue = "-1")
+    public double improveTemperature;
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
     @Component(hint = "default")
     public DependencyGraphBuilder dependencyGraphBuilder;
@@ -325,6 +331,8 @@ public class ProjectTestMojo
                 .keepPitWork(keepPitWork)
                 .improvePromptType(improvePromptType)
                 .improveFocalContext(improveFocalContext)
+                .excludedMutants(excludedMutants)
+                .improveTemperature(improveTemperature)
                 .build();
 
         // SmartUnitTest generation is now handled in the execute method when phaseType is TELPA
