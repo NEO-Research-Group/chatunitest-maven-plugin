@@ -169,6 +169,9 @@ public class ProjectTestMojo
     /** Focal-class context of the improvement prompt: bodies (private methods, default) | fce (whole class) */
     @Parameter(property = "improveFocalContext", defaultValue = "bodies")
     public String improveFocalContext;
+    /** The accumulated suite in the improvement prompt: code (default) | names (only the names of its tests) */
+    @Parameter(property = "improveSuiteContext", defaultValue = "code")
+    public String improveSuiteContext;
     /** File with the ids of the mutants that are not targets of the cycles (e.g. equivalent), one per line; none by default */
     @Parameter(property = "excludedMutants", defaultValue = "")
     public String excludedMutants;
@@ -331,6 +334,7 @@ public class ProjectTestMojo
                 .keepPitWork(keepPitWork)
                 .improvePromptType(improvePromptType)
                 .improveFocalContext(improveFocalContext)
+                .improveSuiteContext(improveSuiteContext)
                 .excludedMutants(excludedMutants)
                 .improveTemperature(improveTemperature)
                 .build();
